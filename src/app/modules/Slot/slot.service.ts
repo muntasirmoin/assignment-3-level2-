@@ -1,6 +1,3 @@
-import httpStatus from "http-status";
-import QueryBuilder from "../../builder/QueryBuilder";
-import AppError from "../../errors/AppError";
 import { serviceModel } from "../Service/service.model";
 import { calculateMinutes } from "./slot.constatnt";
 import { TSlot } from "./slot.interface";
@@ -48,10 +45,6 @@ const createSlotIntoDB = async (payload: TSlot) => {
 };
 
 const getAllSlotFromDb = async (query: Record<string, unknown>) => {
-  //   console.log(query);
-  //   const result = slotModel.find(query).populate("service");
-  //   console.log(query);
-  //   return result;
   const { date, serviceId } = query;
   const availableSlots = await slotModel
     .find({
@@ -60,10 +53,6 @@ const getAllSlotFromDb = async (query: Record<string, unknown>) => {
       isBooked: "available",
     })
     .populate("service");
-
-  // if (!availableSlots || availableSlots.length === 0) {
-  //   throw new AppError(httpStatus.NOT_FOUND, "No available slots found");
-  // }
 
   return availableSlots;
 };

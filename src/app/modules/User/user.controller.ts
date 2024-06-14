@@ -36,11 +36,16 @@ const loginUser = catchAsync(async (req, res) => {
     httpOnly: true,
   });
 
+  //
+  const accessTokenWithoutBearer = accessToken.replace("Bearer ", "");
+
+  //
+
   sendResponseToken(res, {
     statusCode: 200,
     success: true,
     message: "User logged in successfully",
-    token: accessToken,
+    token: accessTokenWithoutBearer,
     data: responseResult,
   });
 });

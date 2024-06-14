@@ -10,8 +10,7 @@ import bcrypt from "bcrypt";
 import { createToken } from "./user.utils";
 
 const createAdminIntoDB = async (payload: TUser) => {
-  // console.log(payload);
-
+  // hashing password here
   const hashedPassword = await bcrypt.hash(
     payload.password,
     Number(config.bcrypt_salt_rounds)
@@ -38,38 +37,39 @@ const loginUser = async (payload: TLoginUser) => {
     throw new AppError(httpStatus.UNAUTHORIZED, "Incorrect password");
   }
 
-  //
   // create token and send to the client
   const jwtPayload = {
     userId: user.id,
     role: user.role,
   };
 
-  // const accessToken = createToken(
+  // Create access token with "Bearer" prefix
+  // const accessToken = `Bearer ${createToken(
   //   jwtPayload,
   //   config.jwt_access_secret as string,
   //   config.jwt_access_expires_in as string
-  // );
+  // )}`;
 
-  // const refreshToken = createToken(
+  // console.log("accessToken", accessToken);
+
+  // Create refresh token with "Bearer" prefix
+  // const refreshToken = `Bearer ${createToken(
   //   jwtPayload,
   //   config.jwt_refresh_secret as string,
   //   config.jwt_refresh_expires_in as string
-  // );
+  // )}`;
 
-  // Create access token with "Bearer" prefix
-  const accessToken = `Bearer ${createToken(
+  const accessToken = createToken(
     jwtPayload,
     config.jwt_access_secret as string,
     config.jwt_access_expires_in as string
-  )}`;
+  );
 
-  // Create refresh token with "Bearer" prefix
-  const refreshToken = `Bearer ${createToken(
+  const refreshToken = createToken(
     jwtPayload,
     config.jwt_refresh_secret as string,
     config.jwt_refresh_expires_in as string
-  )}`;
+  );
 
   return {
     accessToken,
@@ -77,9 +77,6 @@ const loginUser = async (payload: TLoginUser) => {
     user,
     refreshToken,
   };
-  //
-
-  //   return user;
 };
 
 export const UserServices = {

@@ -15,7 +15,7 @@ export type TLoginUser = {
 };
 
 export interface UserExistsModel extends Model<TUser> {
-  //instance methods for checking if the user exist
+  //instance methods for checking is the user exist
   isUserExistsByCustomId(id: string): Promise<TUser>;
 }
 export const USER_ROLE = {

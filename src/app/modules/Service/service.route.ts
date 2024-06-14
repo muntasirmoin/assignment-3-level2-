@@ -4,12 +4,14 @@ import { serviceValidation } from "./service.validate";
 import { ServiceControllers } from "./service.controller";
 import { slotController } from "../Slot/slot.controller";
 import { slotValidation } from "../Slot/slot.validate";
+import auth from "../../middlewares/auth";
+import { USER_ROLE } from "../User/user.interface";
 
 const router = express.Router();
 // Route: /api/services(POST)
-// check
 router.post(
   "/",
+  auth(USER_ROLE.admin),
   validateRequest(serviceValidation.serviceValidationSchema),
   ServiceControllers.createService
 );

@@ -1,53 +1,56 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import catchAsync from "../utils/catchAsync";
-import AppError from "../errors/AppError";
-import httpStatus from "http-status";
-// import { User } from '../modules/student/user/user.model'
 import config from "../config";
 import { TUserRole } from "../modules/User/user.interface";
 import { userModel } from "../modules/User/user.model";
-import sendResponse from "../utils/sendResponse";
 import sendResponseToken from "../utils/semResponseToken";
-// import { TUserRole } from '../modules/student/user/user.interface'
-// middleware
+
+// middleware Authorization check
 export const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
-    // if the token is sent from client
+
+    // is the token is sent from client
     if (!token) {
-      sendResponseToken(res, {
+      return sendResponseToken(res, {
         statusCode: 401,
         success: false,
         message: "You have no access to this route",
       });
     }
+
+    const tokenWithOutBearer = token.split(" ")[1];
+
+    if (!tokenWithOutBearer) {
+      return sendResponseToken(res, {
+        statusCode: 401,
+        success: false,
+        message: "You have no access to this route",
+      });
+    }
+
     // checking if the given token is valid
     const decoded = jwt.verify(
-      token as string,
+      tokenWithOutBearer as string,
       config.jwt_access_secret as string
     ) as JwtPayload;
 
+    // checking  is user exist
     const { role, userId, iat } = decoded;
-    // const { userId, role } = decoded
-    // console.log("in auth.ts", decoded);
-
-    // checking if the user is exist
     const user = await userModel.isUserExistsByCustomId(userId);
-    console.log("user", user);
 
     if (!user) {
-      sendResponseToken(res, {
+      return sendResponseToken(res, {
         statusCode: 401,
         success: false,
         message: "You have no access to this route",
       });
     }
 
-    // rules
+    // checking is user / admin !
     if (requiredRoles && !requiredRoles.includes(role)) {
-      //   throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized  hi!')
-      sendResponseToken(res, {
+      return sendResponseToken(res, {
         statusCode: 401,
         success: false,
         message: "You have no access to this route",

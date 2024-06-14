@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 import { TUser, UserExistsModel } from "./user.interface";
-import bcrypt from "bcrypt";
 
 const UserSchema = new Schema<TUser, UserExistsModel>(
   {
@@ -16,7 +15,7 @@ const UserSchema = new Schema<TUser, UserExistsModel>(
     password: {
       type: String,
       required: true,
-      //   select: false,
+      // select: 0,
     },
     phone: {
       type: String,
