@@ -35,8 +35,12 @@ const createSlotIntoDB = async (payload: TSlot) => {
       isBooked: "available",
     });
 
+    if (slotEndTime <= endTime) {
+      slots.push(slot);
+    }
+
     // await slot.save();
-    slots.push(slot);
+    // slots.push(slot);
     // console.log(slots);
     currentStartMinutes += serviceDuration;
   }

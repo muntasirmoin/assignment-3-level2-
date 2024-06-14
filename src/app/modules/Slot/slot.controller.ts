@@ -10,18 +10,8 @@ import httpStatus from "http-status";
 
 const createSlot = catchAsync(async (req, res) => {
   const slotData = req.body;
-  // console.log(slotData);
-  //   const { service, date, startTime, endTime, isBooked } = req.body;
 
-  //   const slot = await slotModel.findById().populate("services");
-
-  //   console.log(service, date, startTime, endTime, isBooked);
-
-  //   main code
-  //   console.log("start", slotData, "end");
   const result = await slotServices.createSlotIntoDB(slotData);
-  // console.log("controller result", result);
-  //   const responseResult = await slotModel.findOne(slotData._id).select("-__v");
 
   sendResponse(res, {
     statusCode: 200,
