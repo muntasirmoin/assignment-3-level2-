@@ -3,13 +3,11 @@ import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { serviceModel } from "./service.model";
 import { serviceServices } from "./service.service";
-import { serviceValidation } from "./service.validate";
 
 const createService = catchAsync(async (req, res) => {
   const serviceData = req.body;
 
   const result = await serviceServices.createServiceIntoDB(serviceData);
-  // console.log(result._id, result);
 
   // const responseResult = await serviceModel.findById(result._id).select("-__v");
   const responseResult = await serviceModel.findById(result._id);
@@ -71,7 +69,7 @@ const getAllService = catchAsync(async (req, res) => {
 const updateService = catchAsync(async (req, res) => {
   const { id } = req.params;
   const { ...payload } = req.body;
-  console.log(id, payload, req.body);
+
   const result = await serviceServices.updateServiceFromDb(id, payload);
 
   if (!result) {

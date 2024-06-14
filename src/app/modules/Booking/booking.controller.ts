@@ -15,7 +15,7 @@ const createBooking = catchAsync(async (req, res) => {
   //
   //
   const token = req.headers.authorization;
-  // console.log(token);
+
   if (!token) {
     return sendResponseToken(res, {
       statusCode: 401,
@@ -43,9 +43,7 @@ const createBooking = catchAsync(async (req, res) => {
 
   const { ...payload } = req.body;
   const payloadWithUserCustomer = { ...payload, customer: userId };
-  // console.log("insideBooking", payloadWithUserCustomer, "decoded", decoded);
 
-  //
   const slot = await slotModel.findByIdAndUpdate(
     bookingData.slotId,
     { isBooked: "booked" },
@@ -93,7 +91,7 @@ const getAllBooking: RequestHandler = catchAsync(async (req, res) => {
       data: [],
     });
   }
-  // console.log("result", result.);
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -135,7 +133,6 @@ const getSingleMyBooking = catchAsync(async (req, res) => {
   //
 
   const result = await bookingServices.getSingleMyBookingFromDB(userId);
-  console.log(result, userId);
 
   if (!result) {
     return sendResponse(res, {

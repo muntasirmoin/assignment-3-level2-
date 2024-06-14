@@ -39,9 +39,6 @@ const createSlotIntoDB = async (payload: TSlot) => {
       slots.push(slot);
     }
 
-    // await slot.save();
-    // slots.push(slot);
-    // console.log(slots);
     currentStartMinutes += serviceDuration;
   }
 

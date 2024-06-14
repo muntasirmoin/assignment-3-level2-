@@ -1,10 +1,7 @@
 import { RequestHandler } from "express";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import { serviceModel } from "../Service/service.model";
-import { calculateMinutes } from "./slot.constatnt";
-import { TSlot } from "./slot.interface";
-import { slotModel } from "./slot.model";
+
 import { slotServices } from "./slot.service";
 import httpStatus from "http-status";
 
@@ -24,7 +21,6 @@ const createSlot = catchAsync(async (req, res) => {
 
 const getAllSlots: RequestHandler = catchAsync(async (req, res) => {
   const result = await slotServices.getAllSlotFromDb(req.query);
-  //   console.log("result", result);
 
   if (!result || result.length === 0) {
     return sendResponse(res, {

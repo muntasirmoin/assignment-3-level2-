@@ -1,6 +1,3 @@
-// import AppError from "../../errors/AppError";
-
-import mongoose from "mongoose";
 import config from "../../config";
 import { TLoginUser, TUser } from "./user.interface";
 import { userModel } from "./user.model";
@@ -49,8 +46,6 @@ const loginUser = async (payload: TLoginUser) => {
   //   config.jwt_access_secret as string,
   //   config.jwt_access_expires_in as string
   // )}`;
-
-  // console.log("accessToken", accessToken);
 
   // Create refresh token with "Bearer" prefix
   // const refreshToken = `Bearer ${createToken(
