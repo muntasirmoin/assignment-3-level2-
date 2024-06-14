@@ -26,10 +26,11 @@ export const auth = (...requiredRoles: TUserRole[]) => {
 
     const { role, userId, iat } = decoded;
     // const { userId, role } = decoded
-    // console.log('in auth.ts', decoded)
+    // console.log("in auth.ts", decoded);
 
     // checking if the user is exist
     const user = await userModel.isUserExistsByCustomId(userId);
+    console.log("user", user);
 
     if (!user) {
       throw new AppError(httpStatus.NOT_FOUND, "This user is not found !");

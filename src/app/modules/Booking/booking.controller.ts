@@ -5,16 +5,43 @@ import { slotModel } from "../Slot/slot.model";
 import { bookingModel } from "./booking.model";
 import { bookingServices } from "./booking.service";
 import httpStatus from "http-status";
+import sendResponseToken from "../../utils/semResponseToken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import config from "../../config";
 
 const createBooking = catchAsync(async (req, res) => {
   const bookingData = req.body;
 
+  //
+  //
+  const token = req.headers.authorization;
+  if (!token) {
+    sendResponseToken(res, {
+      statusCode: 401,
+      success: false,
+      message: "You have no access to this route",
+    });
+  }
+  const decoded = jwt.verify(
+    token as string,
+    config.jwt_access_secret as string
+  ) as JwtPayload;
+
+  const { role, userId, iat } = decoded;
+
+  const { ...payload } = req.body;
+  const payloadWithUserCustomer = { ...payload, customer: userId };
+  // console.log("insideBooking", payloadWithUserCustomer);
+
+  //
   const slot = await slotModel.findByIdAndUpdate(
     bookingData.slotId,
     { isBooked: "booked" },
     { new: true }
   );
-  const result = await bookingServices.createBookingIntoDB(bookingData);
+  const result = await bookingServices.createBookingIntoDB(
+    payloadWithUserCustomer
+  );
   const responseResult = await bookingModel
     .findById(result._id)
     .populate({

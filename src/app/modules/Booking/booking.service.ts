@@ -3,6 +3,7 @@ import { bookingModel } from "./booking.model";
 
 const createBookingIntoDB = async (payload: TBooking) => {
   // check user ke token theke ene patathe hove i mean login user
+
   //   const payloadWithUser = { ...payload, customer: here give value };
 
   const result = await bookingModel.create(payload);

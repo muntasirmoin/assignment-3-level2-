@@ -40,7 +40,8 @@ const UserSchema = new Schema<TUser, UserExistsModel>(
 );
 
 UserSchema.statics.isUserExistsByCustomId = async function (id: string) {
-  return await userModel.findOne({ id }).select("+password");
+  // return await userModel.findOne({ id });
+  return await userModel.findById(id);
 };
 
 export const userModel = model<TUser, UserExistsModel>("User", UserSchema);
