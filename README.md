@@ -66,7 +66,7 @@
 
 - Route: /api/my-bookings(GET)
 
-## how to set up and use the application locally.
+## How to set up and use the application locally.
 
 ### - Clone the github repository
 
@@ -85,9 +85,11 @@
 - validator
 - zod
 
-### - Install devDependencies
+### - Install devDependencies (if required)
 
-### - SetUp database / Live Deployment Link (Server). [You can use https://www.postman.com/ to run server ]
+### SetUp database / Live Deployment Link (Server).
+
+- You can use https://www.postman.com/ to run server.
 
 ### - Start server with command
 

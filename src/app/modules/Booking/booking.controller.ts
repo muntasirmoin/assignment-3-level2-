@@ -133,6 +133,7 @@ const getSingleMyBooking = catchAsync(async (req, res) => {
   //
 
   const result = await bookingServices.getSingleMyBookingFromDB(userId);
+  console.log(result, userId);
 
   if (!result) {
     return sendResponse(res, {

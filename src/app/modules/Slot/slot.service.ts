@@ -47,6 +47,7 @@ const createSlotIntoDB = async (payload: TSlot) => {
 
 const getAllSlotFromDb = async (query: Record<string, unknown>) => {
   const { date, serviceId } = query;
+
   const availableSlots = await slotModel
     .find({
       date: date,

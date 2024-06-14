@@ -34,6 +34,7 @@ const getAllSlots: RequestHandler = catchAsync(async (req, res) => {
       // "data":[]
     });
   }
+  console.log(result);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
