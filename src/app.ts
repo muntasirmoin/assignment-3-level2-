@@ -22,10 +22,13 @@ app.use(cors());
 
 app.use("/api", router);
 
-const test = async (req: Request, res: Response) => {
-  Promise.reject();
-};
-app.get("/", test);
+// const test = async (req: Request, res: Response) => {
+//   Promise.reject();
+// };
+// app.get("/", test);
+app.get("/", (req: Request, res: Response) => {
+  res.send("Car Wash Booking System!");
+});
 
 // Error Handling:
 app.use(globalErrorHandler);
