@@ -15,15 +15,27 @@ const createBooking = catchAsync(async (req, res) => {
   //
   //
   const token = req.headers.authorization;
+  // console.log(token);
   if (!token) {
-    sendResponseToken(res, {
+    return sendResponseToken(res, {
       statusCode: 401,
       success: false,
       message: "You have no access to this route",
     });
   }
+  const tokenWithOutBearer = token.split(" ")[1];
+
+  if (!tokenWithOutBearer) {
+    return sendResponseToken(res, {
+      statusCode: 401,
+      success: false,
+      message: "You have no access to this route",
+    });
+  }
+
+  // checking if the given token is valid
   const decoded = jwt.verify(
-    token as string,
+    tokenWithOutBearer as string,
     config.jwt_access_secret as string
   ) as JwtPayload;
 
@@ -31,7 +43,7 @@ const createBooking = catchAsync(async (req, res) => {
 
   const { ...payload } = req.body;
   const payloadWithUserCustomer = { ...payload, customer: userId };
-  // console.log("insideBooking", payloadWithUserCustomer);
+  // console.log("insideBooking", payloadWithUserCustomer, "decoded", decoded);
 
   //
   const slot = await slotModel.findByIdAndUpdate(
@@ -96,11 +108,29 @@ const getSingleMyBooking = catchAsync(async (req, res) => {
   // const { id } = req.params;
   //
   const token = req.headers.authorization;
+  if (!token) {
+    return sendResponseToken(res, {
+      statusCode: 401,
+      success: false,
+      message: "You have no access to this route",
+    });
+  }
+
+  const tokenWithOutBearer = token.split(" ")[1];
+
+  if (!tokenWithOutBearer) {
+    return sendResponseToken(res, {
+      statusCode: 401,
+      success: false,
+      message: "You have no access to this route",
+    });
+  }
+
+  // checking if the given token is valid
   const decoded = jwt.verify(
-    token as string,
+    tokenWithOutBearer as string,
     config.jwt_access_secret as string
   ) as JwtPayload;
-
   const { role, userId, iat } = decoded;
   //
 
