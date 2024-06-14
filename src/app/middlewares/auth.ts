@@ -16,11 +16,15 @@ export const auth = (...requiredRoles: TUserRole[]) => {
     const token = req.headers.authorization;
     // if the token is sent from client
     if (!token) {
-      throw new AppError(httpStatus.UNAUTHORIZED, "you are not authorized");
+      sendResponseToken(res, {
+        statusCode: 401,
+        success: false,
+        message: "You have no access to this route",
+      });
     }
     // checking if the given token is valid
     const decoded = jwt.verify(
-      token,
+      token as string,
       config.jwt_access_secret as string
     ) as JwtPayload;
 
@@ -33,7 +37,11 @@ export const auth = (...requiredRoles: TUserRole[]) => {
     console.log("user", user);
 
     if (!user) {
-      throw new AppError(httpStatus.NOT_FOUND, "This user is not found !");
+      sendResponseToken(res, {
+        statusCode: 401,
+        success: false,
+        message: "You have no access to this route",
+      });
     }
 
     // rules

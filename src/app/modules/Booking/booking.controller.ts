@@ -90,7 +90,43 @@ const getAllBooking: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
+//
+// get single service
+const getSingleMyBooking = catchAsync(async (req, res) => {
+  // const { id } = req.params;
+  //
+  const token = req.headers.authorization;
+  const decoded = jwt.verify(
+    token as string,
+    config.jwt_access_secret as string
+  ) as JwtPayload;
+
+  const { role, userId, iat } = decoded;
+  //
+
+  const result = await bookingServices.getSingleMyBookingFromDB(userId);
+  console.log(result, userId);
+
+  if (!result) {
+    return sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: "No Data Found",
+      data: [],
+    });
+  }
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User bookings retrieved successfully",
+    data: result,
+  });
+});
+
+//
+
 export const bookingControllers = {
   createBooking,
   getAllBooking,
+  getSingleMyBooking,
 };
