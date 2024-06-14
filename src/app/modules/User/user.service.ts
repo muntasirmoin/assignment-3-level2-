@@ -45,17 +45,31 @@ const loginUser = async (payload: TLoginUser) => {
     role: user.role,
   };
 
-  const accessToken = createToken(
+  // const accessToken = createToken(
+  //   jwtPayload,
+  //   config.jwt_access_secret as string,
+  //   config.jwt_access_expires_in as string
+  // );
+
+  // const refreshToken = createToken(
+  //   jwtPayload,
+  //   config.jwt_refresh_secret as string,
+  //   config.jwt_refresh_expires_in as string
+  // );
+
+  // Create access token with "Bearer" prefix
+  const accessToken = `Bearer ${createToken(
     jwtPayload,
     config.jwt_access_secret as string,
     config.jwt_access_expires_in as string
-  );
+  )}`;
 
-  const refreshToken = createToken(
+  // Create refresh token with "Bearer" prefix
+  const refreshToken = `Bearer ${createToken(
     jwtPayload,
     config.jwt_refresh_secret as string,
     config.jwt_refresh_expires_in as string
-  );
+  )}`;
 
   return {
     accessToken,
