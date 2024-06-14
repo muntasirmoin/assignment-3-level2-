@@ -47,7 +47,7 @@ export const auth = (...requiredRoles: TUserRole[]) => {
         message: "You have no access to this route",
       });
     }
-
+    console.log("requiredRoles", requiredRoles);
     // checking is user / admin !
     if (requiredRoles && !requiredRoles.includes(role)) {
       return sendResponseToken(res, {

@@ -9,7 +9,7 @@ const createService = catchAsync(async (req, res) => {
   const serviceData = req.body;
 
   const result = await serviceServices.createServiceIntoDB(serviceData);
-  console.log(result._id, result);
+  // console.log(result._id, result);
 
   // const responseResult = await serviceModel.findById(result._id).select("-__v");
   const responseResult = await serviceModel.findById(result._id);

@@ -27,16 +27,22 @@ router.get("/", ServiceControllers.getAllService);
 // update data
 // Route: /api/services/:id(PUT)
 // check
-router.put("/:id", ServiceControllers.updateService);
+router.put(
+  "/:id",
+  auth(USER_ROLE.admin),
+  validateRequest(serviceValidation.updateServiceValidationSchema),
+  ServiceControllers.updateService
+);
 
 // delete
 // Route: /api/services/:id(DELETE) [SOFT DELETE ]
 // check
-router.delete("/:id", ServiceControllers.deleteService);
+router.delete("/:id", auth(USER_ROLE.admin), ServiceControllers.deleteService);
 
 // slot er kaj route ei jagay
 router.post(
   "/slots",
+  auth(USER_ROLE.admin),
   validateRequest(slotValidation.slotValidationSchema),
   slotController.createSlot
 );
